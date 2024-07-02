@@ -1,0 +1,126 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&family=Ubuntu:wght@300;400;500&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    outline: 0;
+    text-decoration: none;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+    min-height: 100vh;
+    margin: auto;
+}
+
+.GymMe-Logo {
+    width: 500px;
+    margin-right: 20px;
+}
+
+.form-div {
+    display: flex;
+    flex-direction: row;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    border: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+.LoginTitle {
+    font-family: 'Roboto', sans-serif;
+    font-size: 50px;
+}
+
+#form-input {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding: 3vh 2vw;
+}
+
+.input {
+    width: 90%;
+    padding: .6rem;
+    border-radius: 8px;
+    border: 1px solid rgba(128, 128, 128, 0.3);
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+
+.Title {
+    font-family: 'Poppins', 'sans-serif';
+    font-size: 40px;
+    position: absolute;
+    top: 25px;
+    width: 100%;
+    text-align: center;
+    color: #333;
+}
+
+.remember-me {
+    display: inline-block;
+    width: 90%;
+    text-align: left;
+    font-family: 'Comme', sans-serif;
+    font-size: 15px;
+    margin-right: 5px;
+    margin: 10px 0;
+}
+
+.Register-Text {
+    font-family: 'Comme', sans-serif;
+    font-size: 15px;
+}
+
+#CheckBoxBtn {
+    font-size: 14px;
+    color: #333;
+}
+
+#LoginBtn {
+    width: 97%;
+    padding: .4rem;
+    font-weight: 700;
+    background-color: #3897f0;
+    border: none;
+    border-radius: 8px;
+    margin: 8px 0px;
+    font-family: 'Comme', sans-serif;
+    color: white;
+    cursor: pointer;
+}
+
+
+.line {
+    display: flex;
+    margin: 20px 0;
+}
+
+.arrow {
+    background-color: gray;
+    height: 1px;
+    width: 110px;
+}
+
+.content {
+    color: gray;
+    margin-top: -8px;
+    margin-left: 4px;
+    margin-right: 4px;
+}

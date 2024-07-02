@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Database1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Branch">
+    <Key>
+      <PropertyRef Name="BranchId" />
+    </Key>
+    <Property Name="BranchId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BranchName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="BranchLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="OpeningTime" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="ClosingTime" Type="Time" Nullable="false" Precision="7" />
+    <NavigationProperty Name="BranchServices" Relationship="Self.FK_BranchServices_ToBranches" FromRole="Branches" ToRole="BranchServices" />
+    <NavigationProperty Name="Reservations" Relationship="Self.FK_Reservations_ToBranches" FromRole="Branches" ToRole="Reservations" />
+  </EntityType>
+  <EntityType Name="BranchService">
+    <Key>
+      <PropertyRef Name="BranchServiceId" />
+    </Key>
+    <Property Name="BranchServiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BranchId" Type="Int32" Nullable="false" />
+    <Property Name="ServiceId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Branch" Relationship="Self.FK_BranchServices_ToBranches" FromRole="BranchServices" ToRole="Branches" />
+    <NavigationProperty Name="Service" Relationship="Self.FK_BranchServices_ToServices" FromRole="BranchServices" ToRole="Services" />
+  </EntityType>
+  <EntityType Name="Rating">
+    <Key>
+      <PropertyRef Name="RatingId" />
+    </Key>
+    <Property Name="RatingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Rate" Type="Int32" Nullable="false" />
+    <Property Name="Comment" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Reservation">
+    <Key>
+      <PropertyRef Name="ReservationId" />
+    </Key>
+    <Property Name="ReservationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="ServiceId" Type="Int32" Nullable="false" />
+    <Property Name="BranchId" Type="Int32" Nullable="false" />
+    <Property Name="ReservationTime" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Branch" Relationship="Self.FK_Reservations_ToBranches" FromRole="Reservations" ToRole="Branches" />
+    <NavigationProperty Name="Service" Relationship="Self.FK_Reservations_ToServices" FromRole="Reservations" ToRole="Services" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Reservations_ToUsers" FromRole="Reservations" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Service">
+    <Key>
+      <PropertyRef Name="ServiceId" />
+    </Key>
+    <Property Name="ServiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ServiveName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ServiceDuration" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="BranchServices" Relationship="Self.FK_BranchServices_ToServices" FromRole="Services" ToRole="BranchServices" />
+    <NavigationProperty Name="Reservations" Relationship="Self.FK_Reservations_ToServices" FromRole="Services" ToRole="Reservations" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserRole" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Reservations" Relationship="Self.FK_Reservations_ToUsers" FromRole="Users" ToRole="Reservations" />
+  </EntityType>
+  <Association Name="FK_BranchServices_ToBranches">
+    <End Role="Branches" Type="Self.Branch" Multiplicity="1" />
+    <End Role="BranchServices" Type="Self.BranchService" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Branches">
+        <PropertyRef Name="BranchId" />
+      </Principal>
+      <Dependent Role="BranchServices">
+        <PropertyRef Name="BranchId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Reservations_ToBranches">
+    <End Role="Branches" Type="Self.Branch" Multiplicity="1" />
+    <End Role="Reservations" Type="Self.Reservation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Branches">
+        <PropertyRef Name="BranchId" />
+      </Principal>
+      <Dependent Role="Reservations">
+        <PropertyRef Name="BranchId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BranchServices_ToServices">
+    <End Role="Services" Type="Self.Service" Multiplicity="1" />
+    <End Role="BranchServices" Type="Self.BranchService" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Services">
+        <PropertyRef Name="ServiceId" />
+      </Principal>
+      <Dependent Role="BranchServices">
+        <PropertyRef Name="ServiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Reservations_ToServices">
+    <End Role="Services" Type="Self.Service" Multiplicity="1" />
+    <End Role="Reservations" Type="Self.Reservation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Services">
+        <PropertyRef Name="ServiceId" />
+      </Principal>
+      <Dependent Role="Reservations">
+        <PropertyRef Name="ServiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Reservations_ToUsers">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="Reservations" Type="Self.Reservation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Reservations">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Database1Entities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Branches" EntityType="Self.Branch" />
+    <EntitySet Name="BranchServices" EntityType="Self.BranchService" />
+    <EntitySet Name="Ratings" EntityType="Self.Rating" />
+    <EntitySet Name="Reservations" EntityType="Self.Reservation" />
+    <EntitySet Name="Services" EntityType="Self.Service" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_BranchServices_ToBranches" Association="Self.FK_BranchServices_ToBranches">
+      <End Role="Branches" EntitySet="Branches" />
+      <End Role="BranchServices" EntitySet="BranchServices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Reservations_ToBranches" Association="Self.FK_Reservations_ToBranches">
+      <End Role="Branches" EntitySet="Branches" />
+      <End Role="Reservations" EntitySet="Reservations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BranchServices_ToServices" Association="Self.FK_BranchServices_ToServices">
+      <End Role="Services" EntitySet="Services" />
+      <End Role="BranchServices" EntitySet="BranchServices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Reservations_ToServices" Association="Self.FK_Reservations_ToServices">
+      <End Role="Services" EntitySet="Services" />
+      <End Role="Reservations" EntitySet="Reservations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Reservations_ToUsers" Association="Self.FK_Reservations_ToUsers">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Reservations" EntitySet="Reservations" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
